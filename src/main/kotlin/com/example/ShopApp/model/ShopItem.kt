@@ -1,5 +1,6 @@
 package com.example.ShopApp.model
 
+import org.hibernate.annotations.Cascade
 import org.hibernate.annotations.GenericGenerator
 import java.util.*
 import javax.persistence.*
@@ -25,9 +26,9 @@ data class UserTable(
 
 @Entity
 data class CategoryTable(
-        var CategoryName: String = "",
+        var categoryName: String = "",
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var CategoryId: Long = 0
+        var categoryId: Long = 0
 )
 
 
@@ -39,6 +40,7 @@ data class SubCategoryTable(
         var CategoryId: CategoryTable?=null,
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         var SubCategoryId: Long = 0)
+
 
 
 @Entity @Table(name = "product")
