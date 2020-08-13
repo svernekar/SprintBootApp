@@ -35,11 +35,13 @@ data class CategoryTable(
 @Entity
 data class SubCategoryTable(
         var SubCategoryName: String = "",
+        var price: Double=0.0,
         @ManyToOne(fetch=FetchType.EAGER)
         @JoinColumn(name = "category_id")
         var CategoryId: CategoryTable?=null,
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var SubCategoryId: Long = 0)
+        var SubCategoryId: Long = 0
+       )
 
 
 

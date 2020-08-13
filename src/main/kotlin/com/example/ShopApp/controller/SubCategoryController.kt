@@ -20,32 +20,26 @@ class SubCategoryController{
     @Autowired
     lateinit var subCategoryRepository: SubCategoryRepository
 
-    // Add new category with products
     @PostMapping("subcategory_for={categoryname}/")
-    fun addSubCategoryItems(@RequestBody subcategoryname:List<String>,@PathVariable("categoryname")name:String):String
+    fun addCategorywithSubcategory(@RequestBody subcategoryname:HashMap<String,Double>,@PathVariable("categoryname")name:String):String
     {
-//        categoryRepository.deleteAll()
-//        subCategoryRepository.deleteAll()
+        //Format to be sent from Postman as text {"Product1":22.0,"Product2":55.0}
         val category=CategoryTable(name)
-
-
         var itemexists:Boolean=categoryRepository.existsByCategoryName(name)
         if (!itemexists)
             categoryRepository.save(category)
             val subCategoryInstances:ArrayList<SubCategoryTable> = ArrayList()
-            for (i in subcategoryname.indices)
-                subCategoryInstances.add(SubCategoryTable(subcategoryname[i],category))
-
+            subcategoryname.forEach {
+            k, v ->subCategoryInstances.add(SubCategoryTable(k,v,category))
+        }
             subCategoryRepository.saveAll(subCategoryInstances)
             return "Items added to the cart :  "+subCategoryRepository.count()+ " with response status: "+ HttpStatus.CREATED
         return  "Category already exists"
 
     }
 
-
-
     @GetMapping("subcategory/")
-    fun getSubCategoryItems():MutableIterable<SubCategoryTable>{
+    fun getCategorywithSubcategory():MutableIterable<SubCategoryTable>{
         val items = subCategoryRepository.findAll()
         return items
     }
