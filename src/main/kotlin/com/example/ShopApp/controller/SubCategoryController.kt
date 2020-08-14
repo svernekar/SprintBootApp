@@ -2,11 +2,13 @@ package com.example.ShopApp.controller
 
 import com.example.ShopApp.model.CategoryTable
 import com.example.ShopApp.model.SubCategoryTable
+import com.example.ShopApp.model.SubscriptionTable
 import com.example.ShopApp.repository.CategoryRepository
 import com.example.ShopApp.repository.SubCategoryRepository
 import org.hibernate.criterion.Example
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 
@@ -42,5 +44,23 @@ class SubCategoryController{
     fun getCategorywithSubcategory():MutableIterable<SubCategoryTable>{
         val items = subCategoryRepository.findAll()
         return items
+    }
+
+    @PostMapping("/{subcategoryid}")
+    fun updatesubcategorydetails(@RequestBody subcategorydetails:SubCategoryTable,@PathVariable("subcategoryid")subcategoryid:Long): ResponseEntity<Boolean>
+    {
+        val item = subCategoryRepository.findById(subcategoryid)
+        return when{
+
+            item.isPresent ->{
+                item.get().SubCategoryName=subcategorydetails.SubCategoryName
+                item.get().price=subcategorydetails.price
+                subCategoryRepository.save(item.get())
+                ResponseEntity(true,HttpStatus.OK)
+            }
+            else ->
+                ResponseEntity(false,HttpStatus.NOT_IMPLEMENTED)
+
+        }
     }
 }
