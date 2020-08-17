@@ -46,6 +46,12 @@ class SubCategoryController{
         return items
     }
 
+    @GetMapping("{id}/")
+    fun getSubcategory(@PathVariable("id")id:CategoryTable):MutableIterable<SubCategoryTable> {
+        val items = subCategoryRepository.findBycategoryId(id)
+        return items
+    }
+
     @PostMapping("/{subcategoryid}")
     fun updatesubcategorydetails(@RequestBody subcategorydetails:SubCategoryTable,@PathVariable("subcategoryid")subcategoryid:Long): ResponseEntity<Boolean>
     {

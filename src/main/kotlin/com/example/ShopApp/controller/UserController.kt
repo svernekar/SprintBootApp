@@ -22,7 +22,7 @@ class UserController(private val userRepository: UserRepository){
     }
 
     @PostMapping("/{subscriptionid}")
-    fun assignsubscriptionID(@RequestBody userID:Long,@PathVariable("subscriptionid")subscriptionid:SubscriptionTable): ResponseEntity<Boolean>
+    fun assignsubscriptionID(@RequestBody userID:String,@PathVariable("subscriptionid")subscriptionid:SubscriptionTable): ResponseEntity<Boolean>
     {
         val item = userRepository.findById(userID)
         return when{
